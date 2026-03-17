@@ -18,7 +18,7 @@ class localeMiddleware
     public function handle(Request $request, Closure $next): Response
     {
 
- $lang = $request->header("Accept-lang")??"ar";
+ $lang = $request->header("Accept-Language")??"ar";
  App::setLocale($lang);
    Session::put("locale",$lang);
          return $next($request);

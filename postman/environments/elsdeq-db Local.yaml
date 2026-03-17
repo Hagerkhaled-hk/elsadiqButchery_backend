@@ -1,0 +1,6 @@
+name: elsdeq-db Local
+values:
+  - key: baseUrl
+    value: 'http://localhost'
+    enabled: true
+    type: default

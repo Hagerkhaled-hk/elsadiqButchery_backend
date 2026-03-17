@@ -17,7 +17,7 @@ public function setlocale($lang)
         return response()->json(
     [
         "success"=>false,
-        "error"=>_("responses.lang-fail")
+        "error"=>__("responses.lang-fail")
 
     ],401);
 
@@ -26,7 +26,7 @@ public function setlocale($lang)
          return response()->json(
     [
         "success"=>true,
-        "message"=>_("responses.lang-switch")
+        "message"=>__("responses.lang-switch")
 
     ],200);
 
@@ -37,7 +37,7 @@ public function setlocale($lang)
    return response()->json(
     [
         "success"=>false,
-        "error"=>_("responses.server-error-message").$e->getMessage()
+        "error"=>__("responses.server-error-message").$e->getMessage()
 
     ],500);
 }

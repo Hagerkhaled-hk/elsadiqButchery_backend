@@ -6,6 +6,7 @@ use App\Http\Requests\authRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -19,13 +20,18 @@ class AuthController extends Controller
             $validated=$authRequest->validated();
 
 
-          $user = User::create($validated);
+          $user = User::create([
+            "name"=>$validated["name"],
+            "email"=>$validated["email"],
+            "password"=>Hash::make($validated["password"]),
+            "phone"=>$validated["phone"],
+          ]);
 
          event(new Registered($user) );
                 return response()->json(
     [
         "success"=>true,
-        "message"=>_("responses.register-success")
+        "message"=>__("responses.register-success")
 
     ],200);
 
@@ -36,7 +42,7 @@ class AuthController extends Controller
     return response()->json(
     [
         "success"=>false,
-        "error"=>_("responses.server-error-message").$e->getMessage()
+        "error"=>__("responses.server-error-message").$e->getMessage()
 
     ],500);
         }
@@ -56,7 +62,21 @@ class AuthController extends Controller
      */
     public function show()
     {
-        return "show";
+        try
+        {
+
+            return "show";
+        }
+        catch(\Exception $e)
+        {
+      return response()->json(
+       [
+        "success"=>false,
+        "error"=>__("responses.server-error-message").$e->getMessage()
+
+        ],500);
+        }
+
     }
 
     /**

@@ -13,6 +13,7 @@ return [
     |
     */
 
+    'phone' => 'يجب  :attribute. ان يكون صالحا',
     'accepted' => 'يجب قبول :attribute.',
     'accepted_if' => 'يجب قبول :attribute عندما يكون :other بقيمة :value.',
     'active_url' => 'يجب أن يكون :attribute عنوان URL صالح.',

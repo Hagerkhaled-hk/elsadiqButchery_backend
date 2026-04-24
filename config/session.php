@@ -4,6 +4,22 @@ use Illuminate\Support\Str;
 
 return [
 
+    /* The stateful option is another critical setting.
+            It defines which domains your Laravel backend will accept
+            stateful API requests from (using sessions and cookies).
+            Your frontend's domain must be listed here. */
+
+
+    "stateful" => explode(",", env('SANCTUM_STATEFUL_DOMAINS', 'localhost,localhost:3000,127.0.0.1,127.0.0.1:8000')),
+
+    /*    Strict	Cookie is never sent on cross-site requests. Even if a user clicks a legit link from another site to your app, no cookie is sent – they appear logged out.
+        Lax	Cookie is not sent on most cross-site requests (e.g., POST forms, AJAX, iframes), BUT it is sent when the user navigates to the site via a top-level navigation (e.g., clicking a link).
+        None	Cookie is sent on all cross-site requests – requires Secure (HTTPS only).
+        Why use Lax for session cookies?
+        Good security – blocks CSRF attacks from malicious sites making POST/PUT/DELETE requests because those won't include the cookie.
+
+        Good usability – when a user clicks a normal link from an email, Slack, or another site to your app, the cookie is sent, so they stay logged in. With Strict, they'd appear logged out until they manually re-enter the URL. */
+    "same_site" => env('SESSION_SAME_SITE', 'lax'),
     /*
     |--------------------------------------------------------------------------
     | Default Session Driver
@@ -129,7 +145,7 @@ return [
 
     'cookie' => env(
         'SESSION_COOKIE',
-        Str::slug((string) env('APP_NAME', 'laravel')).'-session'
+        Str::slug((string) env('APP_NAME', 'laravel')) . '-session'
     ),
 
     /*

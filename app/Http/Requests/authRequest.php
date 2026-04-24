@@ -24,9 +24,9 @@ class authRequest extends FormRequest
     {
       return [
             'name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8',"confirmed"], // requires password_confirmation field
-            'phone'    => [ 'required',"phone:EG"], // adjust max as needed, or add phone format validation
+            'phone'    => [ 'required',"phone:EG","unique:users,phone"], // adjust max as needed, or add phone format validation
         ];
     }
 }

@@ -9,21 +9,25 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 
 
-Route::post("/local/{lang}", [langController::class,"setlocale"]);
+Route::post("/local/{lang}", [langController::class, "setlocale"]);
+
+// Sanctum CSRF cookie endpoint (required for cookie-based auth)
 
 
-Route::prefix("v1")->group(function () {
+/* Route::prefix("v1")->group(function () {
 
-Route::post("/register",[AuthController::class,"register"]);
+    Route::post("/register", [AuthController::class, "register"]);
+    Route::post("/login", [AuthController::class, "login"]);
 
-Route::middleware(['verified'])->group(function()
-{
-
-    Route::get("/show",[AuthController::class,"show"]);
+    Route::middleware(['verified'])->group(function () {
+        // Use 'auth' or 'auth:web' for stateful session-based auth
+        Route::middleware("auth")->group(function () {
+            Route::post("/logout", [AuthController::class, "logout"]);
+            Route::get("/show", [AuthController::class, "show"]);
+        });
+    });
 });
-
-});
-
+ */
 
 
 
@@ -39,10 +43,10 @@ Route::get('/email/verify', function () {
 
 
 
-Route::get('/email/verify/{id}/{hash}', [VerificationController::class,"verify"])
-->middleware(['signed'])->name('verification.verify');
+Route::get('/email/verify/{id}/{hash}', [VerificationController::class, "verify"])
+    ->middleware(['signed'])->name('verification.verify');
 
 
 Route::post('/email/resendExpired', [VerificationController::class, 'resendExpired'])
-    ->middleware([ 'throttle:6,1']) // limit to 6 attempts per minute
+    ->middleware(['throttle:6,1']) // limit to 6 attempts per minute
     ->name('verification.send');

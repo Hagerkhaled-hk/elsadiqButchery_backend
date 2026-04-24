@@ -6,6 +6,7 @@ use App\Http\Requests\authRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -27,7 +28,7 @@ class AuthController extends Controller
             "phone"=>$validated["phone"],
           ]);
 
-         event(new Registered($user) );
+         event(new Registered($user));
                 return response()->json(
     [
         "success"=>true,
@@ -54,6 +55,69 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+        $credentials=$request->validate([
+            "email"=>"required|exists:users,email",
+            "password"=>"required",
+        ]);
+    try
+    {
+        $remember=$request->boolean("remember");
+        if(Auth::attempt($credentials,$remember))
+         {
+        $request->session()->regenerate();
+          return response()->json(
+    [
+        "success"=>true,
+        "data"=>Auth::user(),
+        "message"=>__("responses.login-success")
+
+    ],200);
+}
+
+  return response()->json(
+    [
+        "success"=>false,
+        "error"=>__("responses.login-error")
+
+    ],401);
+
+
+    }
+    catch(\Exception $e){
+        return response()->json(
+    [
+        "success"=>false,
+        "error"=>__("responses.server-error-message").$e->getMessage()
+
+    ],500);
+    }
+
+    }
+    public function logout(Request $request)
+    {
+
+    try
+  {
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+      return response()->json(
+    [
+        "success"=>true,
+        "message"=>__("responses.logout-success")
+
+    ],200);
+
+
+    }
+    catch(\Exception $e){
+        return response()->json(
+    [
+        "success"=>false,
+        "error"=>__("responses.server-error-message").$e->getMessage()
+
+    ],500);
+    }
 
     }
 

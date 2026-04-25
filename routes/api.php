@@ -9,7 +9,6 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 
 
-Route::post("/local/{lang}", [langController::class, "setlocale"]);
 
 // Sanctum CSRF cookie endpoint (required for cookie-based auth)
 
@@ -42,7 +41,7 @@ Route::get('/email/verify', function () {
 
 
 
-
+/*
 Route::get('/email/verify/{id}/{hash}', [VerificationController::class, "verify"])
     ->middleware(['signed'])->name('verification.verify');
 
@@ -50,3 +49,4 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, "verify"
 Route::post('/email/resendExpired', [VerificationController::class, 'resendExpired'])
     ->middleware(['throttle:6,1']) // limit to 6 attempts per minute
     ->name('verification.send');
+ */

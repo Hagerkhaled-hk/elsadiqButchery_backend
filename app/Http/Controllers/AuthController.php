@@ -98,6 +98,7 @@ class AuthController extends Controller
 
     try
   {
+    Auth::logout();
     $request->session()->invalidate();
     $request->session()->regenerateToken();
 

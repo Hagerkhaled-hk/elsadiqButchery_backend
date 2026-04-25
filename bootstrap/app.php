@@ -20,7 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
     );
 
-  $middleware->appendToGroup("api","localeMiddleware");
+  $middleware->appendToGroup("web","localeMiddleware");
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
